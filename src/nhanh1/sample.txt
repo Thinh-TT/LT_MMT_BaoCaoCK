@@ -1,0 +1,27 @@
+Lap trinh mang can ban - Bao cao cuoi ky
+Chu de: Luong byte (Byte Stream) va Luong ky tu (Character Stream) trong Java.
+
+1. Nguyen ly hoat dong:
+- Luong byte (Byte Stream): Xu ly du lieu theo tung byte (8-bit binary). Cac lop tieu bieu la InputStream va OutputStream (vi du: FileInputStream, FileOutputStream). Luong nay phu hop cho moi loai file, dac biet la file nhi phan nhu hinh anh (.png, .jpg), am thanh (.mp3), video (.mp4) hoac file thuc thi (.exe).
+- Luong ky tu (Character Stream): Xu ly du lieu theo tung ky tu Unicode (16-bit). Cac lop tieu bieu la Reader va Writer (vi du: FileReader, FileWriter). Luong nay tu dong ma hoa va giai ma theo bang ma (Charset, mac dinh la UTF-8), rat phu hop cho file van ban text (.txt, .json, .csv).
+
+2. Doan van ban tieng Viet kiem tra Unicode UTF-8:
+"Cộng hòa Xã hội Chủ nghĩa Việt Nam
+Độc lập - Tự do - Hạnh phúc
+
+Trường Đại học Sư phạm Kỹ thuật
+Bộ môn Mạng máy tính & Truyền thông
+Bài thực hành: Khảo sát tốc độ và tính toàn vẹn ký tự giữa Byte Stream và Character Stream.
+
+Lời ca:
+'Thuyền ơi có nhớ bến chăng,
+Bến thì một dạ khăng khăng đợi thuyền.'
+"
+Kiểm tra các ký tự tiếng Việt đặc biệt:
+ă, â, đ, ê, ô, ơ, ư
+Á, À, Ả, Ã, Ạ, Ắ, Ằ, Ẳ, Ẵ, Ặ, Ấ, Ầ, Ẩ, Ẫ, Ậ
+É, È, Ẻ, Ẽ, Ẹ, Ế, Ề, Ể, Ễ, Ệ
+Í, Ì, Ỉ, Ĩ, Ị
+Ó, Ò, Ỏ, Õ, O, Ố, Ồ, Ổ, Ỗ, Ộ, Ớ, Ờ, Ở, Ỡ, Ợ
+Ú, Ù, Ủ, Ũ, U, Ứ, Ừ, Sử, Ữ, Ự
+Ý, Ỳ, Ỷ, Ỹ, Ỵ

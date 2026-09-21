@@ -1,0 +1,59 @@
+# =============================================================================
+# Git Ignore Configuration - BaoCaoCK (Java / NetBeans / VS Code / IntelliJ)
+# =============================================================================
+
+# --- 1. Java Compilation & Build Artifacts ---
+*.class
+*.jar
+*.war
+*.ear
+out/
+bin/
+build/
+dist/
+
+# --- 2. NetBeans IDE ---
+nbproject/private/
+nbproject/Makefile-*.mk
+nbproject/Package-*.bash
+nbproject/*.bak
+
+# --- 3. IntelliJ IDEA ---
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# --- 4. Visual Studio Code ---
+.vscode/
+*.code-workspace
+
+# --- 5. Eclipse IDE ---
+.settings/
+.project
+.classpath
+
+# --- 6. Temporary Benchmark & Test Files (Generated in Nhánh 1, 2, 3...) ---
+# Tep du lieu tam tu dong sinh trong qua trinh do benchmark
+*.dat
+*.tmp
+*.log
+src/nhanh1/benchmark_temp.txt
+src/nhanh1/*_copy.txt
+src/nhanh2/*.dat
+src/nhanh2/*_test_copy.txt
+src/nhanh2/*_out.dat
+
+# --- 7. Operating System Files ---
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
