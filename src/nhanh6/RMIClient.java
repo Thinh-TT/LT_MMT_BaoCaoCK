@@ -21,6 +21,52 @@ public class RMIClient {
     public static final int DEFAULT_PORT = 1099;
     public static final String SERVICE_NAME = "HelloService";
 
+    private final String host;
+    private final int port;
+
+    public RMIClient() {
+        this(DEFAULT_HOST, DEFAULT_PORT);
+    }
+
+    public RMIClient(String host, int port) {
+        this.host = (host != null && !host.trim().isEmpty()) ? host.trim() : DEFAULT_HOST;
+        this.port = (port > 0) ? port : DEFAULT_PORT;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    /**
+     * Goi phuong thuc sayHello() qua Stub va tra ve chuoi ket qua (vi du: "Hello, SinhVien!").
+     *
+     * @param name ten nguoi dung truyen vao
+     * @return ket qua tra ve tu Server
+     * @throws Exception khi lookup loi hoac ket noi RMI gap su co
+     */
+    public String invokeSayHello(String name) throws Exception {
+        return invokeSayHello(this.host, this.port, name);
+    }
+
+    /**
+     * Goi phuong thuc sayHello() tren host va port xac dinh.
+     *
+     * @param host dia chi RMI Registry
+     * @param port cong RMI Registry
+     * @param name ten nguoi dung
+     * @return ket qua tra ve tu Server
+     * @throws Exception khi lookup loi hoac goi remote method that bai
+     */
+    public static String invokeSayHello(String host, int port, String name) throws Exception {
+        Registry registry = LocateRegistry.getRegistry(host, port);
+        HelloInterface stub = (HelloInterface) registry.lookup(SERVICE_NAME);
+        return stub.sayHello(name);
+    }
+
     /**
      * Thuc hien goi ham tu xa sayHello() theo dac ta chuan.
      *

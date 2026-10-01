@@ -12,11 +12,16 @@ Ma nguon duoc tach thanh 3 phan ro rang theo dung kien truc RMI:
 
 ```
 src/nhanh6/
-├── HelloInterface.java  # Remote Interface (Khai bao phuong thuc sayHello, extends Remote)
-├── HelloImpl.java       # Server Implementation (extends UnicastRemoteObject, thuc thi logic)
-├── RMIServer.java       # Khoi dong RMI Registry tren cong 1099 va dang ky (bind) service
-├── RMIClient.java       # Tra cuu (lookup) Registry lay Stub va goi phuong thuc tu xa
-└── README.md            # Tai lieu huong dan chi tiet va ly thuyet kien truc RMI
+├── ServerForm.java        # Giao dien GUI Server RMI (SwingWorker + NetBeans Builder)
+├── ServerForm.form        # XML thiet ke giao dien Server tren NetBeans
+├── ClientForm.java        # Giao dien GUI Client RMI (SwingWorker + NetBeans Builder)
+├── ClientForm.form        # XML thiet ke giao dien Client tren NetBeans
+├── HelloInterface.java    # Remote Interface (Khai bao phuong thuc sayHello, extends Remote)
+├── HelloImpl.java         # Server Implementation (extends UnicastRemoteObject, thuc thi logic)
+├── RMIServerListener.java # Interface callback su kien Server RMI realtime
+├── RMIServer.java         # Khoi dong RMI Registry tren cong 1099 va dang ky (bind) service
+├── RMIClient.java         # Tra cuu (lookup) Registry lay Stub va goi phuong thuc tu xa
+└── README.md              # Tai lieu huong dan chi tiet va ly thuyet kien truc RMI
 ```
 
 ---
@@ -120,6 +125,32 @@ Remote says: Hello, SinhVien!
 ```powershell
 java -cp out nhanh6.RMIClient --interactive
 ```
+
+---
+
+### Buoc 4: Khoi chay giao dien do hoa Swing (GUI Forms)
+
+#### Khoi dong ServerForm (RMI Server GUI):
+Mo mot terminal va chay:
+```powershell
+java -cp out nhanh6.ServerForm
+```
+- Form hien thi cong RMI Registry mac dinh `1099`.
+- Bam **Start Registry** de khoi dong Registry va bind doi tuong tu xa `HelloService`.
+- Khi Client thuc hien Remote Call, Server hien thi chi tiet Pipeline 3 buoc:
+  `-> [Buoc 1: Stub] -> [Buoc 2: Skeleton] -> [Buoc 3: Server HelloImpl.sayHello()]`.
+- Bang danh sach luu tru toan bo cac luot goi tu xa realtime.
+- Bam **Stop Server** de unbind service va giai phong cong TCP an toan.
+
+#### Khoi dong ClientForm (RMI Client GUI):
+Mo mot terminal khac va chay:
+```powershell
+java -cp out nhanh6.ClientForm
+```
+- Nhap dia chi `localhost` va cong `1099`.
+- Nhap ten tham so (mac dinh `SinhVien`).
+- Bam **Gọi Remote Method** hoac an phim Enter.
+- Ket qua hien thi: `Remote says: Hello, SinhVien!`, do tre khuu hoi (latency ms) va bang lich su `JTable`.
 
 ---
 

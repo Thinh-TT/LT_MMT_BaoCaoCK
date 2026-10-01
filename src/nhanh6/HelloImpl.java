@@ -1,6 +1,8 @@
 package nhanh6;
 
 import java.rmi.RemoteException;
+import java.rmi.server.RemoteServer;
+import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
 
 /**
@@ -18,13 +20,28 @@ import java.rmi.server.UnicastRemoteObject;
 public class HelloImpl extends UnicastRemoteObject implements HelloInterface {
 
     private static final long serialVersionUID = 1L;
+    private transient RMIServerListener listener;
 
     public HelloImpl() throws RemoteException {
         super();
     }
 
+    public HelloImpl(RMIServerListener listener) throws RemoteException {
+        super();
+        this.listener = listener;
+    }
+
+    public void setListener(RMIServerListener listener) {
+        this.listener = listener;
+    }
+
     @Override
     public String sayHello(String name) throws RemoteException {
+        String clientHost = "localhost";
+        try {
+            clientHost = RemoteServer.getClientHost();
+        } catch (ServerNotActiveException ignored) {}
+
         // Log ro thu tu Stub -> Skeleton -> Server theo dung yeu cau dac ta bao cao cuoi ky
         System.out.println("\n-----------------------------------------------------------------------------");
         System.out.println("[RMI Server Pipeline] Co loi goi phuong thuc tu xa den sayHello():");
@@ -34,6 +51,12 @@ public class HelloImpl extends UnicastRemoteObject implements HelloInterface {
         System.out.println("==> Thu tu xu ly: Stub -> Skeleton -> HelloImpl.sayHello()");
         System.out.println("-----------------------------------------------------------------------------");
 
-        return "Hello, " + name + "!";
+        String result = "Hello, " + name + "!";
+
+        if (listener != null) {
+            listener.onRemoteCall(clientHost, name, result);
+        }
+
+        return result;
     }
 }

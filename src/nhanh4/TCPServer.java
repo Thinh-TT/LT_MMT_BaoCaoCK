@@ -27,9 +27,19 @@ public class TCPServer {
     private final int port;
     private ServerSocket serverSocket;
     private volatile boolean isRunning = true;
+    private TCPServerListener listener;
 
     public TCPServer(int port) {
+        this(port, null);
+    }
+
+    public TCPServer(int port, TCPServerListener listener) {
         this.port = port;
+        this.listener = listener;
+    }
+
+    public void setListener(TCPServerListener listener) {
+        this.listener = listener;
     }
 
     public void start() {
@@ -44,6 +54,9 @@ public class TCPServer {
             serverSocket = new ServerSocket(port);
             System.out.printf("-> Server da khoi dong va dang lang nghe tai cong TCP: %d\n", port);
             System.out.println("-> San sang nhan ket noi tu Client... (Nhan Ctrl+C de dung Server)\n");
+            if (listener != null) {
+                listener.onServerStarted(port);
+            }
 
             while (isRunning) {
                 try {
@@ -51,6 +64,9 @@ public class TCPServer {
                     Socket clientSocket = serverSocket.accept();
                     String clientAddress = clientSocket.getRemoteSocketAddress().toString();
                     System.out.printf("[Server] Co ket noi moi thanh cong tu Client: %s\n", clientAddress);
+                    if (listener != null) {
+                        listener.onClientConnected(clientAddress);
+                    }
 
                     // Xu ly giao tiep voi Client
                     handleClient(clientSocket);
@@ -61,11 +77,17 @@ public class TCPServer {
                         break;
                     }
                     System.err.println("[Server] Loi khi chap nhan ket noi: " + e.getMessage());
+                    if (listener != null) {
+                        listener.onLog("[Lỗi] Chấp nhận kết nối thất bại: " + e.getMessage());
+                    }
                 }
             }
 
         } catch (IOException e) {
             System.err.printf("Khong the khoi dong TCPServer tren cong %d: %s\n", port, e.getMessage());
+            if (listener != null) {
+                listener.onLog(String.format("[Lỗi] Không thể khởi động Server trên cổng %d: %s", port, e.getMessage()));
+            }
         } finally {
             stop();
         }
@@ -75,6 +97,7 @@ public class TCPServer {
      * Xu ly truyen nhan du lieu voi mot Client cu the.
      */
     private void handleClient(Socket socket) {
+        String clientAddress = socket.getRemoteSocketAddress() != null ? socket.getRemoteSocketAddress().toString() : "Unknown";
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
              PrintWriter writer = new PrintWriter(
@@ -97,10 +120,17 @@ public class TCPServer {
                 // Gui phan hoi "Received OK" ve cho Client
                 writer.println("Received OK");
                 System.out.println("[Server] Da gui phan hoi: \"Received OK\"");
+
+                if (listener != null) {
+                    listener.onMessageReceived(clientAddress, inputLine, "Received OK");
+                }
             }
 
         } catch (IOException e) {
             System.err.println("[Server] Loi giao tiep voi Client: " + e.getMessage());
+            if (listener != null) {
+                listener.onLog("[Lỗi] Giao tiếp với Client " + clientAddress + ": " + e.getMessage());
+            }
         } finally {
             try {
                 if (!socket.isClosed()) {
@@ -110,10 +140,16 @@ public class TCPServer {
                 System.err.println("[Server] Loi dong socket: " + e.getMessage());
             }
             System.out.println("[Server] Da dong ket noi voi Client. Tiep tuc cho Client tiep theo...\n");
+            if (listener != null) {
+                listener.onClientDisconnected(clientAddress);
+            }
         }
     }
 
     public void stop() {
+        if (!isRunning && (serverSocket == null || serverSocket.isClosed())) {
+            return;
+        }
         isRunning = false;
         if (serverSocket != null && !serverSocket.isClosed()) {
             try {
@@ -121,6 +157,9 @@ public class TCPServer {
             } catch (IOException e) {
                 System.err.println("Loi khi dong ServerSocket: " + e.getMessage());
             }
+        }
+        if (listener != null) {
+            listener.onServerStopped();
         }
     }
 

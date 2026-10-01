@@ -25,6 +25,79 @@ public class UDPClient {
     public static final int BUFFER_SIZE = 1024;
     public static final int TIMEOUT_MS = 3000;
 
+    private final String host;
+    private final int port;
+
+    public UDPClient() {
+        this(DEFAULT_HOST, DEFAULT_PORT);
+    }
+
+    public UDPClient(String host, int port) {
+        this.host = (host != null && !host.trim().isEmpty()) ? host.trim() : DEFAULT_HOST;
+        this.port = (port > 0) ? port : DEFAULT_PORT;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    /**
+     * Gui mot DatagramPacket chua thong diep va cho nhan phan hoi tu UDPServer.
+     * Su dung host va port cua instance hien tai.
+     *
+     * @param message chuoi can gui (vi du: "Ping")
+     * @return chuoi phan hoi tu Server (vi du: "Pong")
+     * @throws IOException khi gap loi mang hoac het thoi gian cho (Timeout)
+     */
+    public String sendAndReceive(String message) throws IOException {
+        return sendAndReceive(this.host, this.port, message, TIMEOUT_MS);
+    }
+
+    /**
+     * Gui thong diep qua UDP toi host va port xac dinh, nhan phan hoi voi timeout mac dinh 3000ms.
+     *
+     * @param host dia chi may chu UDP
+     * @param port cong may chu UDP
+     * @param message chuoi can gui
+     * @return chuoi phan hoi tu Server
+     * @throws IOException khi gap loi truyen nhan hoac timeout
+     */
+    public static String sendAndReceive(String host, int port, String message) throws IOException {
+        return sendAndReceive(host, port, message, TIMEOUT_MS);
+    }
+
+    /**
+     * Gui thong diep qua UDP va cho nhan phan hoi voi timeout tuy chinh.
+     *
+     * @param host dia chi may chu UDP
+     * @param port cong may chu UDP
+     * @param message chuoi can gui
+     * @param timeoutMs thoi gian cho toi da (ms)
+     * @return chuoi phan hoi tu Server
+     * @throws IOException khi gap loi truyen nhan hoac timeout
+     */
+    public static String sendAndReceive(String host, int port, String message, int timeoutMs) throws IOException {
+        try (DatagramSocket socket = new DatagramSocket()) {
+            socket.setSoTimeout(timeoutMs);
+            InetAddress serverAddress = InetAddress.getByName(host);
+
+            byte[] sendData = message.getBytes(StandardCharsets.UTF_8);
+            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, serverAddress, port);
+            socket.send(sendPacket);
+
+            byte[] receiveBuffer = new byte[BUFFER_SIZE];
+            DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
+            socket.receive(receivePacket);
+
+            return new String(
+                    receivePacket.getData(), 0, receivePacket.getLength(), StandardCharsets.UTF_8).trim();
+        }
+    }
+
     /**
      * Thuc hien chu trinh UDP Ping-Pong theo dung dac ta bao cao cuoi ky.
      *

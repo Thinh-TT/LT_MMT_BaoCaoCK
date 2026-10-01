@@ -25,9 +25,19 @@ public class UDPServer {
     private final int port;
     private DatagramSocket socket;
     private volatile boolean isRunning = true;
+    private UDPServerListener listener;
 
     public UDPServer(int port) {
+        this(port, null);
+    }
+
+    public UDPServer(int port, UDPServerListener listener) {
         this.port = port;
+        this.listener = listener;
+    }
+
+    public void setListener(UDPServerListener listener) {
+        this.listener = listener;
     }
 
     public void start() {
@@ -42,6 +52,9 @@ public class UDPServer {
             socket = new DatagramSocket(port);
             System.out.printf("-> UDPServer da khoi dong tren cong UDP: %d\n", port);
             System.out.println("-> San sang nhan DatagramPacket tu Client... (Nhan Ctrl+C de dung)\n");
+            if (listener != null) {
+                listener.onServerStarted(port);
+            }
 
             byte[] receiveBuffer = new byte[BUFFER_SIZE];
 
@@ -83,29 +96,48 @@ public class UDPServer {
                     System.out.printf("[UDPServer] Da gui phan hoi toi [%s:%d]: \"%s\"\n\n",
                             clientAddress.getHostAddress(), clientPort, responseMessage);
 
+                    if (listener != null) {
+                        listener.onPacketReceived(clientAddress.getHostAddress(), clientPort, receivedMessage, responseMessage);
+                    }
+
                 } catch (SocketException e) {
                     if (!isRunning) {
                         System.out.println("[UDPServer] Socket da duoc dong.");
                         break;
                     }
                     System.err.println("[UDPServer] Loi Socket: " + e.getMessage());
+                    if (listener != null) {
+                        listener.onLog("[Lỗi Socket] " + e.getMessage());
+                    }
                 } catch (IOException e) {
                     System.err.println("[UDPServer] Loi I/O khi nhan/gui goi tin: " + e.getMessage());
+                    if (listener != null) {
+                        listener.onLog("[Lỗi I/O] " + e.getMessage());
+                    }
                 }
             }
 
         } catch (SocketException e) {
             System.err.printf("Khong the khoi tao DatagramSocket tren cong %d: %s\n", port, e.getMessage());
+            if (listener != null) {
+                listener.onLog(String.format("[Lỗi] Không thể khởi tạo DatagramSocket cổng %d: %s", port, e.getMessage()));
+            }
         } finally {
             stop();
         }
     }
 
     public void stop() {
+        if (!isRunning && (socket == null || socket.isClosed())) {
+            return;
+        }
         isRunning = false;
         if (socket != null && !socket.isClosed()) {
             socket.close();
             System.out.println("-> UDPServer da dung va dong Socket thanh cong.");
+        }
+        if (listener != null) {
+            listener.onServerStopped();
         }
     }
 

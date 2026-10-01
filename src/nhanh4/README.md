@@ -12,9 +12,14 @@ Nhanh 4 minh hoa kien truc co ban nhat cua lap trinh mang: **Mo hinh Client/Serv
 
 ```
 src/nhanh4/
-├── TCPServer.java  # Server TCP lang nghe cong 9090, nhan chuoi va phan hoi "Received OK"
-├── TCPClient.java  # Client TCP ket noi toi Server, gui chuoi va in ket qua
-└── README.md       # Tai lieu huong dan chi tiet va ly thuyet kien truc Socket
+├── ServerForm.java        # Giao dien GUI Server (SwingWorker + NetBeans Builder)
+├── ServerForm.form        # XML thiet ke giao dien Server tren NetBeans
+├── ClientForm.java        # Giao dien GUI Client (SwingWorker + NetBeans Builder)
+├── ClientForm.form        # XML thiet ke giao dien Client tren NetBeans
+├── TCPServer.java         # Server TCP lang nghe cong 9090, nhan chuoi va phan hoi "Received OK"
+├── TCPServerListener.java # Interface callback su kien cap nhat ServerForm realtime
+├── TCPClient.java         # Client TCP ket noi toi Server, gui chuoi va in ket qua
+└── README.md              # Tai lieu huong dan chi tiet va ly thuyet kien truc Socket
 ```
 
 ---
@@ -88,6 +93,31 @@ java -cp out nhanh4.TCPClient
 - Quan sat Console Server hien thi: `Client says: "Xin chao"`
 - Nhap them cac chuoi bat ky nhu: `Lap trinh mang`, `Socket TCP`
 - Go: `exit` de dong ket noi an toan.
+
+---
+
+### Buoc 4: Khoi chay giao dien do hoa Swing (GUI Forms)
+
+#### Khoi dong ServerForm (May chu TCP):
+Mo terminal va chay:
+```powershell
+java -cp out nhanh4.ServerForm
+```
+- Form hien thi cong TCP mac dinh `9090`.
+- Bam **Start Server** de lang nghe ket noi tren background thread qua `SwingWorker`.
+- Thanh tien trinh chuyen sang trang thai *RUNNING / Listening*.
+- Nhat ky hien thi bat tay 3 buoc TCP, cac chuoi nhan duoc tu Client va phan hoi `Received OK`.
+- Bang danh sach luu tru toan bo cac ban tin trao doi thoi gian thuc.
+
+#### Khoi dong ClientForm (Client GUI):
+Mo them mot terminal va chay:
+```powershell
+java -cp out nhanh4.ClientForm
+```
+- Nhap dia chi `localhost` va cong `9090`.
+- Nhap chuoi tin nhan (vi du `Xin chao`) roi bam **Gửi (Send)** hoac an phim Enter.
+- Bam **Kiểm Thử Tự Động** de chay test case chuan voi chuoi `"Xin chao"`.
+- Quan sat phan hoi: `Server: Received OK`, do tre (latency) va lich su luu vao `JTable`.
 
 ---
 

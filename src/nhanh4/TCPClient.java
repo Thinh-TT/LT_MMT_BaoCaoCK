@@ -24,6 +24,68 @@ public class TCPClient {
     public static final String DEFAULT_HOST = "localhost";
     public static final int DEFAULT_PORT = 9090;
 
+    private final String host;
+    private final int port;
+
+    public TCPClient() {
+        this(DEFAULT_HOST, DEFAULT_PORT);
+    }
+
+    public TCPClient(String host, int port) {
+        this.host = (host != null && !host.trim().isEmpty()) ? host.trim() : DEFAULT_HOST;
+        this.port = (port > 0) ? port : DEFAULT_PORT;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    /**
+     * Gui mot chuoi tin nhan den Server va tra ve chuoi phan hoi tu Server.
+     * Su dung cau hinh host va port cua instance TCPClient hien tai.
+     *
+     * @param message chuoi can gui
+     * @return phan hoi tu Server (vi du: "Received OK")
+     * @throws IOException khi gap loi ket noi hoac truyen nhan
+     */
+    public String sendMessage(String message) throws IOException {
+        return sendMessage(this.host, this.port, message);
+    }
+
+    /**
+     * Gui mot chuoi tin nhan den Server tai host va port xac dinh va tra ve phan hoi.
+     *
+     * @param host dia chi server
+     * @param port cong server
+     * @param message chuoi can gui
+     * @return phan hoi tu Server
+     * @throws IOException khi gap loi ket noi hoac truyen nhan
+     */
+    public static String sendMessage(String host, int port, String message) throws IOException {
+        try (Socket socket = new Socket(host, port);
+             BufferedReader reader = new BufferedReader(
+                     new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
+             PrintWriter writer = new PrintWriter(
+                     new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true)) {
+
+            // Gui chuoi den Server
+            writer.println(message);
+
+            // Nhan phan hoi
+            String response = reader.readLine();
+
+            // Gui lenh thoat de Server dong ket noi an toan
+            writer.println("exit");
+            reader.readLine(); // Doc loi chao tam biet cua server truoc khi close
+
+            return response;
+        }
+    }
+
     /**
      * Chay Client o che do tuong tac go ban phim truc tiep.
      */

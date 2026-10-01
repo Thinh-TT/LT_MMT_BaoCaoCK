@@ -13,9 +13,14 @@ Nhanh 5 minh hoa kien truc truyen nhan du lieu **khong ket noi (Connectionless)*
 
 ```
 src/nhanh5/
-├── UDPServer.java  # Server UDP lang nghe cong 9191, nhan "Ping" -> gui "Pong"
-├── UDPClient.java  # Client UDP gui DatagramPacket, nhan va in "Sent: Ping -> Received: Pong"
-└── README.md       # Tai lieu huong dan chi tiet va ly thuyet so sanh TCP vs UDP
+├── ServerForm.java        # Giao dien GUI Server UDP (SwingWorker + NetBeans Builder)
+├── ServerForm.form        # XML thiet ke giao dien Server tren NetBeans
+├── ClientForm.java        # Giao dien GUI Client UDP (SwingWorker + NetBeans Builder)
+├── ClientForm.form        # XML thiet ke giao dien Client tren NetBeans
+├── UDPServer.java         # Server UDP lang nghe cong 9191, nhan "Ping" -> gui "Pong"
+├── UDPServerListener.java # Interface callback su kien cap nhat ServerForm realtime
+├── UDPClient.java         # Client UDP gui DatagramPacket, nhan va in "Sent: Ping -> Received: Pong"
+└── README.md              # Tai lieu huong dan chi tiet va ly thuyet so sanh TCP vs UDP
 ```
 
 ---
@@ -84,6 +89,31 @@ java -cp out nhanh5.UDPClient --interactive
 - Go: `Ping` -> Nhan: `Pong`
 - Go: `hello` -> Nhan: `Echo: hello`
 - Go: `exit` -> Dong ket noi.
+
+---
+
+### Buoc 4: Khoi chay giao dien do hoa Swing (GUI Forms)
+
+#### Khoi dong ServerForm (May chu UDP):
+Mo mot cua so terminal va chay:
+```powershell
+java -cp out nhanh5.ServerForm
+```
+- Form hien thi cong UDP mac dinh `9191`.
+- Bam **Start Server** de mo DatagramSocket lang nghe tren background thread qua `SwingWorker`.
+- Thanh tien trinh chuyen sang trang thai *Listening on port 9191...*.
+- Nhat ky hien thi chi tiet cac goi tin UDP nhan duoc: `Received: "Ping" from 127.0.0.1:xxxxx -> Sent: "Pong"`.
+- Bang danh sach luu tru toan bo cac goi tin DatagramPacket theo thoi gian thuc.
+
+#### Khoi dong ClientForm (Client GUI):
+Mo them mot cua so terminal khac va chay:
+```powershell
+java -cp out nhanh5.ClientForm
+```
+- Nhap dia chi `localhost` va cong `9191`.
+- Nhap thong diep (mac dinh `Ping`), chon so lan gui (vi du: `1`, `5`, `10` goi).
+- Bam **Gửi UDP (Send)** hoac an phim Enter de gui goi tin.
+- Quan sat phan hoi: `Sent: Ping -> Received: Pong`, do tre khuu hoi (latency ms), ty le mat goi (Loss rate) va bang lich su `JTable`.
 
 ---
 
