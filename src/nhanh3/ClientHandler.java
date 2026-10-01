@@ -23,10 +23,16 @@ public class ClientHandler implements Runnable {
 
     private final Socket clientSocket;
     private final int clientId;
+    private final ServerListener listener;
 
     public ClientHandler(Socket clientSocket, int clientId) {
+        this(clientSocket, clientId, null);
+    }
+
+    public ClientHandler(Socket clientSocket, int clientId, ServerListener listener) {
         this.clientSocket = clientSocket;
         this.clientId = clientId;
+        this.listener = listener;
     }
 
     @Override
@@ -64,6 +70,10 @@ public class ClientHandler implements Runnable {
                 System.out.printf("[%s] [Client-%d] Nhan: \"%s\" -> Gui lai: \"%s\"\n",
                         threadName, clientId, inputLine, reversedString);
 
+                if (listener != null) {
+                    listener.onClientMessage(clientId, threadName, inputLine, reversedString);
+                }
+
                 // Gui chuoi dao nguoc ve cho Client
                 writer.println(reversedString);
             }
@@ -79,6 +89,9 @@ public class ClientHandler implements Runnable {
             } catch (IOException e) {
                 System.err.printf("[%s] [Client-%d] Loi khi dong socket: %s\n",
                         threadName, clientId, e.getMessage());
+            }
+            if (listener != null) {
+                listener.onClientDisconnected(clientId, "Done");
             }
             System.out.printf("[%s] [Client-%d] Da ket thuc phien lam viec va giai phong luong.\n",
                     threadName, clientId);

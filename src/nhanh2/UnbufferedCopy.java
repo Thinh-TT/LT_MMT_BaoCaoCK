@@ -58,6 +58,49 @@ public class UnbufferedCopy {
         return durationNs;
     }
 
+    /**
+     * Sao chep tep nguon sang tep dich khong dung bo dem va tra ve thoi gian tinh bang milliseconds.
+     * Phuong thuc nay duoc goi tu GUI Form hoac BenchmarkRunner.
+     *
+     * @param src  tep nguon
+     * @param dest tep dich
+     * @return thoi gian thuc thi tinh bang milliseconds (ms), hoac -1 neu co loi
+     */
+    public static long copyAndMeasure(File src, File dest) {
+        if (!src.exists()) {
+            System.err.println("Loi: Tep nguon khong ton tai: " + src.getAbsolutePath());
+            return -1;
+        }
+
+        long bytesCopied = 0;
+        long startTime = System.nanoTime();
+
+        try (FileInputStream fis = new FileInputStream(src);
+             FileOutputStream fos = new FileOutputStream(dest)) {
+
+            int b;
+            while ((b = fis.read()) != -1) {
+                fos.write(b);
+                bytesCopied++;
+            }
+            fos.flush();
+
+        } catch (IOException e) {
+            System.err.println("Loi sao chep Unbuffered: " + e.getMessage());
+            return -1;
+        }
+
+        long durationNs = System.nanoTime() - startTime;
+        long durationMs = durationNs / 1_000_000L;
+        double durationMsDouble = durationNs / 1_000_000.0;
+        double speedMBs = (durationMsDouble > 0) ? ((double) bytesCopied / (1024 * 1024)) / (durationMsDouble / 1000.0) : 0.0;
+
+        System.out.printf("[Unbuffered] Da copy %,d bytes | Thoi gian: %,d ms (%.2f ms) | Toc do: %.2f MB/s\n",
+                bytesCopied, durationMs, durationMsDouble, speedMBs);
+
+        return durationMs;
+    }
+
     public static void main(String[] args) {
         System.out.println("==================================================");
         System.out.println("   DEMO SAO CHEP KHONG DUNG BO DEM (UNBUFFERED)   ");

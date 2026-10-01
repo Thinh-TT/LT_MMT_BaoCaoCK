@@ -155,6 +155,41 @@ public class ByteStreamDemo {
         return duration;
     }
 
+    /**
+     * Doc toan bo tep bang luong byte va tra ve thoi gian thuc thi tinh bang milliseconds.
+     * Phuong thuc nay duoc goi tu GUI Form hoac PerformanceComparator.
+     *
+     * @param filePath duong dan tep can doc
+     * @return thoi gian thuc thi tinh bang milliseconds (ms)
+     */
+    public static long readAndMeasure(String filePath) {
+        File file = new File(filePath);
+        if (!file.exists()) {
+            System.err.println("Tep khong ton tai: " + filePath);
+            return -1;
+        }
+
+        long byteCount = 0;
+        long startTime = System.nanoTime();
+
+        try (FileInputStream fis = new FileInputStream(file)) {
+            int b;
+            while ((b = fis.read()) != -1) {
+                byteCount++;
+            }
+        } catch (IOException e) {
+            System.err.println("Loi doc file ByteStream: " + e.getMessage());
+            return -1;
+        }
+
+        long durationNs = System.nanoTime() - startTime;
+        long durationMs = durationNs / 1_000_000L;
+        System.out.printf("-> [ByteStream] Da doc xong %,d bytes trong %,d ns (%.3f ms)\n",
+                byteCount, durationNs, durationNs / 1_000_000.0);
+
+        return durationMs;
+    }
+
     public static void main(String[] args) {
         System.out.println("==================================================");
         System.out.println("   CHUONG TRINH DEMO LUONG BYTE (BYTE STREAM)     ");

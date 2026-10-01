@@ -75,6 +75,62 @@ public class BufferedCopy {
         return durationNs;
     }
 
+    /**
+     * Sao chep tep dung luong dem va tra ve thoi gian tinh bang milliseconds.
+     * Phuong thuc nay duoc goi tu GUI Form hoac BenchmarkRunner.
+     *
+     * @param src  tep nguon
+     * @param dest tep dich
+     * @return thoi gian thuc thi tinh bang milliseconds (ms), hoac -1 neu co loi
+     */
+    public static long copyAndMeasure(File src, File dest) {
+        return copyAndMeasureCustomBuffer(src, dest, DEFAULT_BUFFER_SIZE);
+    }
+
+    /**
+     * Sao chep tep dung luong dem voi kich thuoc bo dem tuy chon va tra ve thoi gian (ms).
+     *
+     * @param src        tep nguon
+     * @param dest       tep dich
+     * @param bufferSize kich thuoc mang dem (bytes)
+     * @return thoi gian thuc thi tinh bang milliseconds (ms), hoac -1 neu co loi
+     */
+    public static long copyAndMeasureCustomBuffer(File src, File dest, int bufferSize) {
+        if (!src.exists()) {
+            System.err.println("Loi: Tep nguon khong ton tai: " + src.getAbsolutePath());
+            return -1;
+        }
+
+        long bytesCopied = 0;
+        long startTime = System.nanoTime();
+
+        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(src), bufferSize);
+             BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(dest), bufferSize)) {
+
+            byte[] buffer = new byte[bufferSize];
+            int bytesRead;
+            while ((bytesRead = bis.read(buffer)) != -1) {
+                bos.write(buffer, 0, bytesRead);
+                bytesCopied += bytesRead;
+            }
+            bos.flush();
+
+        } catch (IOException e) {
+            System.err.println("Loi sao chep Buffered: " + e.getMessage());
+            return -1;
+        }
+
+        long durationNs = System.nanoTime() - startTime;
+        long durationMs = durationNs / 1_000_000L;
+        double durationMsDouble = durationNs / 1_000_000.0;
+        double speedMBs = (durationMsDouble > 0) ? ((double) bytesCopied / (1024 * 1024)) / (durationMsDouble / 1000.0) : 0.0;
+
+        System.out.printf("[Buffered]   Da copy %,d bytes | Thoi gian: %,d ms (%.2f ms) | Toc do: %.2f MB/s\n",
+                bytesCopied, durationMs, durationMsDouble, speedMBs);
+
+        return durationMs;
+    }
+
     public static void main(String[] args) {
         System.out.println("==================================================");
         System.out.println("     DEMO SAO CHEP DUNG BO DEM (BUFFERED STREAM)  ");

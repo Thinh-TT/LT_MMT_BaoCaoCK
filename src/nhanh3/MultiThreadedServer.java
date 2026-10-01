@@ -28,10 +28,20 @@ public class MultiThreadedServer {
     private ServerSocket serverSocket;
     private ExecutorService threadPool;
     private volatile boolean isRunning = true;
+    private ServerListener listener;
 
     public MultiThreadedServer(int port, int poolSize) {
+        this(port, poolSize, null);
+    }
+
+    public MultiThreadedServer(int port, int poolSize, ServerListener listener) {
         this.port = port;
         this.poolSize = poolSize;
+        this.listener = listener;
+    }
+
+    public void setListener(ServerListener listener) {
+        this.listener = listener;
     }
 
     public void start() {
@@ -50,16 +60,26 @@ public class MultiThreadedServer {
             System.out.printf("-> ThreadPool khoi tao: %d luong worker san sang xu ly dong thoi\n", poolSize);
             System.out.println("-> Dang cho Client ket noi den...\n");
 
+            if (listener != null) {
+                listener.onServerStarted(port, poolSize);
+            }
+
             while (isRunning) {
                 try {
                     Socket clientSocket = serverSocket.accept();
                     int clientId = clientCounter.incrementAndGet();
+                    String clientAddr = clientSocket.getRemoteSocketAddress().toString();
+                    String connectTime = new java.text.SimpleDateFormat("HH:mm:ss").format(new java.util.Date());
 
                     System.out.printf("[Main-Server] Chap nhan ket noi moi #%d tu: %s. Dang chuyen vao ThreadPool...\n",
-                            clientId, clientSocket.getRemoteSocketAddress());
+                            clientId, clientAddr);
+
+                    if (listener != null) {
+                        listener.onClientConnected(clientId, clientAddr, connectTime);
+                    }
 
                     // Chuyen giao viec xu ly cho ThreadPool
-                    threadPool.submit(new ClientHandler(clientSocket, clientId));
+                    threadPool.submit(new ClientHandler(clientSocket, clientId, listener));
 
                 } catch (IOException e) {
                     if (!isRunning) {
@@ -89,6 +109,9 @@ public class MultiThreadedServer {
         }
         if (threadPool != null && !threadPool.isShutdown()) {
             threadPool.shutdown();
+        }
+        if (listener != null) {
+            listener.onServerStopped();
         }
         System.out.println("-> Server da dung hoan toan.");
     }

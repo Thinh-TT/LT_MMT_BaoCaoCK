@@ -90,7 +90,7 @@ public class BenchmarkRunner {
 
         int maxBarLength = 40;
 
-        System.out.println("\n====================== BIEU DO ASCII SO SANH HIU NANG ======================");
+        System.out.println("\n====================== BIEU DO ASCII SO SANH HIEU NANG ======================");
 
         // Bieu do 1: Thoi gian thuc thi (cang ngan cang tot)
         System.out.println("\n[A] BIEU DO THOI GIAN XU LY (ms) - (Thap hon la tot hon):");

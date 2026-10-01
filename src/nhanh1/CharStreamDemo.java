@@ -156,6 +156,41 @@ public class CharStreamDemo {
         return duration;
     }
 
+    /**
+     * Doc toan bo tep bang luong ky tu (FileReader UTF-8) va tra ve thoi gian thuc thi tinh bang milliseconds.
+     * Phuong thuc nay duoc goi tu GUI Form hoac PerformanceComparator.
+     *
+     * @param filePath duong dan tep van ban can doc
+     * @return thoi gian thuc thi tinh bang milliseconds (ms)
+     */
+    public static long readAndMeasure(String filePath) {
+        File file = new File(filePath);
+        if (!file.exists()) {
+            System.err.println("Tep khong ton tai: " + filePath);
+            return -1;
+        }
+
+        long charCount = 0;
+        long startTime = System.nanoTime();
+
+        try (FileReader fr = new FileReader(file, StandardCharsets.UTF_8)) {
+            int ch;
+            while ((ch = fr.read()) != -1) {
+                charCount++;
+            }
+        } catch (IOException e) {
+            System.err.println("Loi doc file CharStream: " + e.getMessage());
+            return -1;
+        }
+
+        long durationNs = System.nanoTime() - startTime;
+        long durationMs = durationNs / 1_000_000L;
+        System.out.printf("-> [CharStream] Da doc xong %,d ky tu trong %,d ns (%.3f ms)\n",
+                charCount, durationNs, durationNs / 1_000_000.0);
+
+        return durationMs;
+    }
+
     public static void main(String[] args) {
         System.out.println("==================================================");
         System.out.println(" CHUONG TRINH DEMO LUONG KY TU (CHARACTER STREAM) ");

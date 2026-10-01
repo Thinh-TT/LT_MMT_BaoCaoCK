@@ -25,6 +25,62 @@ public class TestClient {
     public static final String DEFAULT_HOST = "localhost";
     public static final int DEFAULT_PORT = 8080;
 
+    private final String host;
+    private final int port;
+
+    public TestClient() {
+        this(DEFAULT_HOST, DEFAULT_PORT);
+    }
+
+    public TestClient(String host, int port) {
+        this.host = host;
+        this.port = port;
+    }
+
+    /**
+     * Gui mot chuoi ky tu toi Server va nhan ve chuoi dao nguoc.
+     *
+     * @param message chuoi can gui
+     * @return chuoi dao nguoc nhan ve tu Server
+     * @throws IOException neu xay ra loi ket noi
+     */
+    public String sendAndReceive(String message) throws IOException {
+        return sendAndReceive(this.host, this.port, message);
+    }
+
+    /**
+     * Gui chuoi ky tu toi Server va nhan chuoi dao nguoc qua socket rieng biet.
+     *
+     * @param host    dia chi server
+     * @param port    cong server
+     * @param message chuoi can gui
+     * @return chuoi dao nguoc nhan ve tu Server
+     * @throws IOException neu xay ra loi ket noi
+     */
+    public static String sendAndReceive(String host, int port, String message) throws IOException {
+        try (Socket socket = new Socket(host, port);
+             BufferedReader reader = new BufferedReader(
+                     new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
+             PrintWriter writer = new PrintWriter(
+                     new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true)) {
+
+            // Doc loi chao tu Server
+            reader.readLine();
+
+            // Gui tin nhan den Server
+            writer.println(message);
+
+            // Nhan phan hoi dao nguoc tu Server
+            String response = reader.readLine();
+
+            // Gui tin hieu exit de Server dong ket noi lich su
+            writer.println("exit");
+            reader.readLine();
+
+            return response;
+        }
+    }
+
     /**
      * Chay Client o che do tuong tac qua console.
      */
