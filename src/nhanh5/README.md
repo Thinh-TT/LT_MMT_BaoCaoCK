@@ -71,24 +71,24 @@ java -cp out nhanh5.UDPServer
 
 ### Buoc 3: Chay UDPClient
 
-#### Cach 1: Chay chu trinh Ping-Pong tu dong (Khuyen khich)
+#### Cach 1: Chay che do go ban phim tuong tac (Mac dinh)
 Mo cua so Terminal thu hai va chay:
 ```powershell
 java -cp out nhanh5.UDPClient
+```
+- Go: `Ping` -> Nhan: `Pong`
+- Go: `hello` -> Nhan: `Echo: hello`
+- Go: `exit` -> Dong ket noi.
+
+#### Cach 2: Chay chu trinh Ping-Pong tu dong
+```powershell
+java -cp out nhanh5.UDPClient --pingpong
 ```
 *Console Client se in:*
 ```text
 Sent: Ping -> Received: Pong
 -> Ket qua: [THANH CONG - DUNG CHUAN DAC TA UDP PING-PONG]
 ```
-
-#### Cach 2: Chay che do go ban phim tuong tac
-```powershell
-java -cp out nhanh5.UDPClient --interactive
-```
-- Go: `Ping` -> Nhan: `Pong`
-- Go: `hello` -> Nhan: `Echo: hello`
-- Go: `exit` -> Dong ket noi.
 
 ---
 

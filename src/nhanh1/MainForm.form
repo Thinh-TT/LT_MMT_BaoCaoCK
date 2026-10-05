@@ -3,7 +3,7 @@
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
-    <Property name="title" type="java.lang.String" value="Nhánh 1 - So sánh Byte Stream vs Character Stream"/>
+    <Property name="title" type="java.lang.String" value="Nh&#xe1;nh 1 - So s&#xe1;nh Byte Stream vs Character Stream"/>
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[720, 600]"/>
     </Property>
@@ -47,9 +47,9 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="pnlControl" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="pnlLog" pref="250" max="32767" attributes="0"/>
+              <Component id="pnlLog" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="pnlResult" min="-2" pref="160" max="-2" attributes="0"/>
+              <Component id="pnlResult" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -57,60 +57,6 @@
   </Layout>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="pnlControl">
-      <Properties>
-        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderPaneBorderInfo">
-          <Border/>
-        </Property>
-      </Properties>
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="progressBar" max="32767" attributes="0"/>
-                      <Group type="102" attributes="0">
-                          <Component id="btnChooseFile" min="-2" pref="110" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="txtFilePath" max="32767" attributes="0"/>
-                      </Group>
-                      <Group type="102" attributes="0">
-                          <Component id="btnRun" min="-2" pref="140" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="btnStop" min="-2" pref="100" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="lblStatus" max="32767" attributes="0"/>
-                      </Group>
-                      <Component id="lblTitle" alignment="0" pref="744" max="32767" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="lblTitle" min="-2" pref="25" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="baseline" attributes="0">
-                      <Component id="btnChooseFile" alignment="baseline" min="-2" pref="30" max="-2" attributes="0"/>
-                      <Component id="txtFilePath" alignment="baseline" min="-2" pref="30" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="baseline" attributes="0">
-                      <Component id="btnRun" alignment="baseline" min="-2" pref="32" max="-2" attributes="0"/>
-                      <Component id="btnStop" alignment="baseline" min="-2" pref="32" max="-2" attributes="0"/>
-                      <Component id="lblStatus" alignment="baseline" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="progressBar" min="-2" pref="22" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-      </Layout>
       <SubComponents>
         <Component class="javax.swing.JLabel" name="lblTitle">
           <Properties>
@@ -118,7 +64,7 @@
               <Font name="Segoe UI" size="16" style="1"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="SO SÁNH HIỆU NĂNG: BYTE STREAM VS CHARACTER STREAM"/>
+            <Property name="text" type="java.lang.String" value="SO S&#xc1;NH HI&#x1ec6;U N&#x102;NG: BYTE STREAM VS CHARACTER STREAM"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnChooseFile">
@@ -126,8 +72,8 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="12" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Chọn File..."/>
-            <Property name="toolTipText" type="java.lang.String" value="Chọn tệp tin văn bản (.txt) để thử nghiệm"/>
+            <Property name="text" type="java.lang.String" value="Ch&#x1ecd;n File..."/>
+            <Property name="toolTipText" type="java.lang.String" value="Ch&#x1ecd;n t&#x1ec7;p tin v&#x103;n b&#x1ea3;n (.txt) &#x111;&#x1ec3; th&#x1eed; nghi&#x1ec7;m"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnChooseFileActionPerformed"/>
@@ -136,10 +82,7 @@
         <Component class="javax.swing.JTextField" name="txtFilePath">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="12" style="0"/>
-            </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Đường dẫn file đã chọn"/>
+            <Property name="toolTipText" type="java.lang.String" value="&#x110;&#x1b0;&#x1edd;ng d&#x1eab;n file &#x111;&#xe3; ch&#x1ecd;n"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnRun">
@@ -147,8 +90,8 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="12" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Chạy So Sánh"/>
-            <Property name="toolTipText" type="java.lang.String" value="Bắt đầu quá trình kiểm thử so sánh giữa 2 luồng"/>
+            <Property name="text" type="java.lang.String" value="Ch&#x1ea1;y So S&#xe1;nh"/>
+            <Property name="toolTipText" type="java.lang.String" value="B&#x1eaf;t &#x111;&#x1ea7;u qu&#xe1; tr&#xec;nh ki&#x1ec3;m th&#x1eed; so s&#xe1;nh gi&#x1eef;a 2 lu&#x1ed3;ng"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRunActionPerformed"/>
@@ -159,8 +102,8 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="12" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Dừng"/>
-            <Property name="toolTipText" type="java.lang.String" value="Huỷ quá trình thử nghiệm đang chạy"/>
+            <Property name="text" type="java.lang.String" value="D&#x1eeb;ng"/>
+            <Property name="toolTipText" type="java.lang.String" value="Hu&#x1ef7; qu&#xe1; tr&#xec;nh th&#x1eed; nghi&#x1ec7;m &#x111;ang ch&#x1ea1;y"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
@@ -172,7 +115,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="12" style="2"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Trạng thái: Sẵn sàng"/>
+            <Property name="text" type="java.lang.String" value="Tr&#x1ea1;ng th&#xe1;i: S&#x1eb5;n s&#xe0;ng"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JProgressBar" name="progressBar">
@@ -184,11 +127,6 @@
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="pnlLog">
-      <Properties>
-        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderPaneBorderInfo">
-          <Border/>
-        </Property>
-      </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -224,7 +162,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="12" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="NHẬT KÝ THỰC THI (LOG):"/>
+            <Property name="text" type="java.lang.String" value="NH&#x1eac;T K&#xdd; TH&#x1ef0;C THI (LOG):"/>
           </Properties>
         </Component>
         <Container class="javax.swing.JScrollPane" name="scpLog">
@@ -249,11 +187,6 @@
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="pnlResult">
-      <Properties>
-        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderPaneBorderInfo">
-          <Border/>
-        </Property>
-      </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -277,7 +210,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="lblResult" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="scpResult" pref="120" max="32767" attributes="0"/>
+                  <Component id="scpResult" pref="126" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -289,7 +222,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="12" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="KẾT QUẢ SO SÁNH:"/>
+            <Property name="text" type="java.lang.String" value="K&#x1ebe;T QU&#x1ea2; SO S&#xc1;NH:"/>
           </Properties>
         </Component>
         <Container class="javax.swing.JScrollPane" name="scpResult">
@@ -303,14 +236,14 @@
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="3" rowCount="2">
-                    <Column editable="false" title="Phương pháp" type="java.lang.String">
+                    <Column editable="false" title="Ph&#x1b0;&#x1a1;ng ph&#xe1;p" type="java.lang.String">
                       <Data value="ByteStream (FileInputStream)"/>
                       <Data value="CharStream (FileReader UTF-8)"/>
                     </Column>
-                    <Column editable="false" title="Thời gian (ms)" type="java.lang.Object"/>
-                    <Column editable="false" title="Ghi chú" type="java.lang.String">
-                      <Data value="Đọc nhị phân (8-bit), không decode"/>
-                      <Data value="Đọc ký tự Unicode, giải mã UTF-8"/>
+                    <Column editable="false" title="Th&#x1edd;i gian (ms)" type="java.lang.Object"/>
+                    <Column editable="false" title="Ghi ch&#xfa;" type="java.lang.String">
+                      <Data value="&#x110;&#x1ecd;c nh&#x1ecb; ph&#xe2;n (8-bit), kh&#xf4;ng decode"/>
+                      <Data value="&#x110;&#x1ecd;c k&#xfd; t&#x1ef1; Unicode, gi&#x1ea3;i m&#xe3; UTF-8"/>
                     </Column>
                   </Table>
                 </Property>

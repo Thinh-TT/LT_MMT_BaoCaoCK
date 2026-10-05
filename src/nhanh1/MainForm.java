@@ -152,7 +152,7 @@ public class MainForm extends javax.swing.JFrame {
         pnlControl.add(btnStop);
 
         lblStatus.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
-        lblStatus.setText("Trạng thái: Sŕn sàng");
+        lblStatus.setText("Trạng thái: Sẵn sàng");
         pnlControl.add(lblStatus);
 
         progressBar.setString("");

@@ -213,7 +213,7 @@ public class UDPClient {
         String host = DEFAULT_HOST;
         int port = DEFAULT_PORT;
 
-        if (args.length > 0 && args[0].equalsIgnoreCase("--interactive")) {
+        if (args.length > 0 && args[0].equalsIgnoreCase("--pingpong")) {
             if (args.length >= 2) {
                 host = args[1];
             }
@@ -222,7 +222,7 @@ public class UDPClient {
                     port = Integer.parseInt(args[2]);
                 } catch (NumberFormatException ignored) {}
             }
-            runInteractive(host, port);
+            sendPingPong(host, port);
         } else {
             if (args.length >= 1 && !args[0].startsWith("-")) {
                 host = args[0];
@@ -232,7 +232,7 @@ public class UDPClient {
                     port = Integer.parseInt(args[1]);
                 } catch (NumberFormatException ignored) {}
             }
-            sendPingPong(host, port);
+            runInteractive(host, port);
         }
     }
 }

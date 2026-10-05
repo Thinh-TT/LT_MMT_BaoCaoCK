@@ -104,7 +104,6 @@ public class ClientForm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Nhánh 5 - UDP Client (DatagramSocket Ping-Pong)");
         setMinimumSize(new java.awt.Dimension(750, 600));
-        setPreferredSize(new java.awt.Dimension(800, 640));
 
         lblTitle.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
