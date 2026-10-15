@@ -90,9 +90,14 @@ java -cp out nhanh6.RMIServer
 ### Buoc 3: Chay RMIClient
 Mo mot cua so Terminal khac va chay:
 
-#### Cach 1: Chay kiem thu mac dinh (Tham so "SinhVien")
+#### Cach 1: Chay che do go ban phim tuong tac (Mac dinh)
 ```powershell
 java -cp out nhanh6.RMIClient
+```
+
+#### Cach 2: Chay kiem thu tu dong (Tham so "SinhVien")
+```powershell
+java -cp out nhanh6.RMIClient --auto
 ```
 *Console Client se in:*
 ```text
@@ -119,11 +124,6 @@ Remote says: Hello, SinhVien!
 -> [Buoc 3: Server]   HelloImpl.sayHello("SinhVien") dang thuc thi tren Server JVM
 ==> Thu tu xu ly: Stub -> Skeleton -> HelloImpl.sayHello()
 -----------------------------------------------------------------------------
-```
-
-#### Cach 2: Chay che do go ban phim tuong tac
-```powershell
-java -cp out nhanh6.RMIClient --interactive
 ```
 
 ---

@@ -147,23 +147,21 @@ public class RMIClient {
         int port = DEFAULT_PORT;
         String name = "SinhVien";
 
-        if (args.length > 0 && args[0].equalsIgnoreCase("--interactive")) {
-            if (args.length >= 2) host = args[1];
-            if (args.length >= 3) {
-                try { port = Integer.parseInt(args[2]); } catch (NumberFormatException ignored) {}
-            }
-            runInteractive(host, port);
-        } else {
-            if (args.length >= 1 && !args[0].startsWith("-")) {
-                name = args[0];
-            }
-            if (args.length >= 2) {
-                host = args[1];
-            }
-            if (args.length >= 3) {
-                try { port = Integer.parseInt(args[2]); } catch (NumberFormatException ignored) {}
+        if (args.length > 0 && args[0].equalsIgnoreCase("--auto")) {
+            if (args.length >= 2) name = args[1];
+            if (args.length >= 3) host = args[2];
+            if (args.length >= 4) {
+                try { port = Integer.parseInt(args[3]); } catch (NumberFormatException ignored) {}
             }
             callSayHello(host, port, name);
+        } else {
+            if (args.length >= 1 && !args[0].startsWith("-")) {
+                host = args[0];
+            }
+            if (args.length >= 2) {
+                try { port = Integer.parseInt(args[1]); } catch (NumberFormatException ignored) {}
+            }
+            runInteractive(host, port);
         }
     }
 }
